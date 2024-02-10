@@ -8,9 +8,16 @@ let books = [
     // Add more books as needed
 ];
 
-// path => http://localhost:4000/books || Get all books
-routes.get("/:id", (req, res) => {
 
+// path => http://localhost:4000/books || Get all books
+routes.get("/", (req, res) => {
+    // send dummy books
+    res.status(200).json(books)
+})
+
+
+// get a single book by id
+routes.get("/:id", (req, res) => {
     const id = parseInt(req.params.id)
     const book = books.find(book => book.id === id)
     // send dummy books
@@ -21,20 +28,21 @@ routes.get("/:id", (req, res) => {
     }
 })
 
-// get a single book by id
-routes.get("/id", (req, res) => {
-    // send dummy books
-    res.status(200).json(books)
-})
-
-
 
 // path => http://localhost:4000/books || Create New Book
 routes.post("/", (req, res) => {
-    const newBook = req.body
-    console.log({ newBook })
+    const { title, author } = req.body
+    const newBook = {}
+    if (title && author) {
+        newBook.id = books.length + 1
+        newBook.title = title;
+        newBook.author = author;
+    }
+    if (newBook.id) {
+        books.push(newBook)
+    }
     // send dummy books
-    res.status(200).json(books)
+    res.status(200).json({ message: "new book sucessfully added" })
 })
 
 
