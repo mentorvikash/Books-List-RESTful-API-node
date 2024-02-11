@@ -72,4 +72,17 @@ routes.put("/:id", (req, res) => {
 })
 
 
+// Delete a specific book by id
+routes.delete("/:id", (req, res) => {
+    const { id } = req.params;
+    if (id) {
+        const newBooklist = books.filter(el => el.id != id);
+        books = newBooklist;
+        return res.status(200).json({ message: "book successfully deleted" })
+    } else {
+        return res.json({ message: "id is missing" })
+
+    }
+})
+
 module.exports = routes
