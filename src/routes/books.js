@@ -29,7 +29,7 @@ routes.get("/:id", (req, res) => {
 })
 
 
-// path => http://localhost:4000/books || Create New Book
+// Create New Book - path => http://localhost:4000/books
 routes.post("/", (req, res) => {
     const { title, author } = req.body
     const newBook = {}
@@ -43,6 +43,32 @@ routes.post("/", (req, res) => {
     }
     // send dummy books
     res.status(200).json({ message: "new book sucessfully added" })
+})
+
+// Update book list
+routes.put("/:id", (req, res) => {
+    const { id } = req.params;
+    const { title, author } = req.body;
+    if (id) {
+        const index = books.findIndex(el => el.id == id);
+
+        if (index !== -1) {
+            if (title) {
+                books[index].title = title
+            }
+            if (author) {
+                books[index].author = author
+
+            }
+            return res.status(200).json({ message: "book sucessfully updated" })
+        } else {
+            return res.status(200).json({ message: "No book find with the id" })
+        }
+
+    } else {
+        return res.json({ message: "id is missing" })
+
+    }
 })
 
 
